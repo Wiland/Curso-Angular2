@@ -1,8 +1,52 @@
+// ----------------------------------------------------------------------------
+// Clases
+class Avenger{
+  nombre:string;
+  equipo:string;
+  nombreReal:string;
+
+  puedePelear:boolean;
+  peleasGanadas:number;
+
+  constructor(nombre:string, equipo:string, nombreReal:string){
+    this.nombre = nombre;
+    this.equipo = equipo;
+    this.nombreReal = nombreReal;
+    this.puedePelear = false;
+    this.peleasGanadas = 0;
+  }
+}
+
+let antman:Avenger = new Avenger("Antman","CAP","Scott Lang");
+
+console.log(antman);
+
+
+// ----------------------------------------------------------------------------
 // Interfaces
+// interface XMen {
+//   nombre:string,
+//   poder:string
+// }
+//
+// function enviarMision(xmen:XMen){
+//   console.log("Enviando a " + xmen.nombre);
+// }
+//
+// function enviarCuartel(xmen:XMen){
+//   console.log("Enviando al cuartel a " + xmen.nombre);
+// }
+//
+// let wolverine:XMen = {
+//   nombre: "Wolverine",
+//   poder: "Regeneración"
+// }
+//
+// enviarMision(wolverine);
+// enviarCuartel(wolverine);
 
 
-
-
+// ----------------------------------------------------------------------------
 // Promesas
 // let prom = new Promise(function(resolve, reject){
 //   setTimeout( () => {
@@ -23,6 +67,8 @@
 //   console.error("Salió mal");
 // })
 
+
+// ----------------------------------------------------------------------------
 // Destructuración de arreglos
 // let avengers:string[] = ["Thor","Hulk","IronMan"];
 //
@@ -31,6 +77,8 @@
 // console.log(thor, bruce, tony);
 // console.log(tony);
 
+
+// ----------------------------------------------------------------------------
 // Destructuración de objetos
 // let avenger = {
 //   nombre: "Tony Stark",
@@ -43,6 +91,7 @@
 // console.log(nombre, clave, poder);
 
 
+// ----------------------------------------------------------------------------
 // Funciones de flecha
 // let superman = {
 //   nombre: "Clark",
@@ -89,7 +138,7 @@
 // console.log(funcion3F("Wilmer"));
 
 
-
+// ----------------------------------------------------------------------------
 // Parámetros obligatorios
 // function activar( quien:string, objeto:string = "alarma", momento?:string){
 //   let mensaje:string;
@@ -102,6 +151,8 @@
 //
 // activar("Andrés", "alarma", "noche");
 
+
+// ----------------------------------------------------------------------------
 // Literales
 // let nombre = "Wilmer";
 // let apellido = "Córdoba";
@@ -111,6 +162,8 @@
 //
 // console.log(texto);
 
+
+// ----------------------------------------------------------------------------
 // Primera sesión Introductoria Typescript
 // function saludar( nombre:string ){
 //   console.log("Hola " + nombre.toUpperCase());
