@@ -1,25 +1,41 @@
 // ----------------------------------------------------------------------------
-// Clases
-class Avenger{
-  nombre:string;
-  equipo:string;
-  nombreReal:string;
+// Decoradores
 
-  puedePelear:boolean;
-  peleasGanadas:number;
+function consola(constructor:Function){
+  console.log(constructor);
+}
 
-  constructor(nombre:string, equipo:string, nombreReal:string){
+@consola
+class Villano{
+  public nombre:string;
+
+  constructor(nombre:string){
     this.nombre = nombre;
-    this.equipo = equipo;
-    this.nombreReal = nombreReal;
-    this.puedePelear = false;
-    this.peleasGanadas = 0;
   }
 }
 
-let antman:Avenger = new Avenger("Antman","CAP","Scott Lang");
-
-console.log(antman);
+// ----------------------------------------------------------------------------
+// Clases
+// class Avenger{
+//   nombre:string;
+//   equipo:string;
+//   nombreReal:string;
+//
+//   puedePelear:boolean;
+//   peleasGanadas:number;
+//
+//   constructor(nombre:string, equipo:string, nombreReal:string){
+//     this.nombre = nombre;
+//     this.equipo = equipo;
+//     this.nombreReal = nombreReal;
+//     this.puedePelear = false;
+//     this.peleasGanadas = 1;
+//   }
+// }
+//
+// let antman:Avenger = new Avenger("Antman","CAP","Scott Lang");
+//
+// console.log(antman);
 
 
 // ----------------------------------------------------------------------------
