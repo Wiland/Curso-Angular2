@@ -27,4 +27,7 @@ export class AppComponent {
   fecha = new Date();
 
   video = "Rqoq5oMOTaU";
+
+  password = 'Secret_Password';
+  activar:boolean = false;
 }

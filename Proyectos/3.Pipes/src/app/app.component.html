@@ -84,6 +84,14 @@
       <td>capitalizado</td>
       <td>{{ nombreRaro | capitalizado:false }}</td>
     </tr>
+    <tr>
+      <td>{{ password }}</td>
+      <td>contrasena:{{ activar }}<br/>
+        <button type="button" name="button" class="btn btn-outline-primary btn-block"
+        (click)="activar = !activar">Mostrar/Ocultar</button>
+      </td>
+      <td>{{ password | contrasena:activar }}</td>
+    </tr>
   </tbody>
 </table>
 
