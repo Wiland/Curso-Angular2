@@ -1,7 +1,7 @@
 <br>
 <div *ngIf="artist" class="container animated fadeIn fast">
   <div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-3 text-center">
       <img [src]="artist.images | sinfoto" class="img-thumbnail img-circle">
     </div>
     <div class="col-sm-1">
@@ -48,11 +48,12 @@
               <td>{{ track.name }}</td>
               <td>{{ track.popularity }}%</td>
               <td>
-                <audio controls *ngIf="track.preview_url">
+                <!-- <audio controls *ngIf="track.preview_url">
                   <source [src]="track.preview_url">
                     Navegador incompatible
                 </audio>
-                <p *ngIf="!track.preview_url">Fragmento no disponible</p>
+                <p *ngIf="!track.preview_url">Fragmento no disponible</p> -->
+                <iframe [src]="track.uri | domseguro:'https://open.spotify.com/embed?uri='" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
               </td>
               <td><a [href]="track.external_urls?.spotify" class="btn btn-outline-info btn-block">Ver</a></td>
             </tr>

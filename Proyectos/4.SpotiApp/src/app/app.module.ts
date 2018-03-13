@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from "@angular/common/http";
 
 import { SpotifyService } from './services/spotify.service';
 
@@ -14,6 +15,7 @@ import { ArtistComponent } from './components/artist/artist.component';
 
 import { APP_ROUTING } from './app.routes';
 import { SinFotoPipe } from './pipes/sinfoto.pipe';
+import { DomseguroPipe } from './pipes/domseguro.pipe';
 
 @NgModule({
   declarations: [
@@ -22,12 +24,14 @@ import { SinFotoPipe } from './pipes/sinfoto.pipe';
     SearchComponent,
     NavbarComponent,
     SinFotoPipe,
+    DomseguroPipe,
     ArtistComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
+    HttpClientModule,
     APP_ROUTING
   ],
   providers: [ SpotifyService ],
