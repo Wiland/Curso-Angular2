@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 
-import { SpotifyService } from './services/spotify.service';
+// import { SpotifyService } from './services/spotify.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -14,8 +14,10 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { ArtistComponent } from './components/artist/artist.component';
 
 import { APP_ROUTING } from './app.routes';
-import { SinFotoPipe } from './pipes/sinfoto.pipe';
-import { DomseguroPipe } from './pipes/domseguro.pipe';
+import { NoImagePipe } from './pipes/noimage.pipe';
+import { SecureDOMPipe } from './pipes/securedom.pipe';
+import { CardComponent } from './components/shared/card/card.component';
+import { LoadingComponent } from './components/shared/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -23,9 +25,11 @@ import { DomseguroPipe } from './pipes/domseguro.pipe';
     HomeComponent,
     SearchComponent,
     NavbarComponent,
-    SinFotoPipe,
-    DomseguroPipe,
-    ArtistComponent
+    NoImagePipe,
+    SecureDOMPipe,
+    ArtistComponent,
+    CardComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,9 @@ import { DomseguroPipe } from './pipes/domseguro.pipe';
     HttpClientModule,
     APP_ROUTING
   ],
-  providers: [ SpotifyService ],
+  providers: [
+    // SpotifyService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

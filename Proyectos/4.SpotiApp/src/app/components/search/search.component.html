@@ -1,25 +1,14 @@
-<br>
-<div class="container">
-  <h1>{{ term }}</h1>
-  <div class="row">
-    <div class="col-md-3">
-      <label for="termino">Buscador de artistas</label>
-      <input [(ngModel)]="term"
-        (keyup)="searchArtist()"
-        type="text" name="term"
-        class="form-control"
-        placeholder="Buscar artistas">
-      <hr>
-    </div>
-    <div class="col-md-9">
-      <div class="row">
-        <div class="col-md-3 text-center puntero" *ngFor="let artist of _spotifyService.artists"
-          [routerLink]="['/artist',artist.id]">
-          <!--img [src]="(artist.images.length !== 0) ? artist.images[1].url : './assets/img/noimage.png'" [alt]="artist.name" class="img-fluid img-thumbnail"-->
-          <img [src]="artist.images | sinfoto" class="img-fluid img-thumbnail">
-          <p>{{ artist.name }}</p>
-        </div>
-      </div>
-    </div>
+<h1>{{ term }}</h1>
+<div class="row">
+  <label for="termino">Buscador de artistas</label>
+  <input [(ngModel)]="term" (keyup)="search()" type="text" name="term" class="form-control" placeholder="Buscar artistas...">
+  <br>
+</div>
+<div class="row">
+  <div class="alert alert-info" role="alert" *ngIf="firstSearch && artists.length === 0">
+    No se encontraron artistas con el término de búsqueda actual
   </div>
 </div>
+<br>
+<app-loading *ngIf="loading" class="m-5"></app-loading>
+<app-card *ngIf="!loading" [items]="artists"></app-card>

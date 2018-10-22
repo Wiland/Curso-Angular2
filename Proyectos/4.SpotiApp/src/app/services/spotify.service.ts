@@ -1,114 +1,87 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { map, flatMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SpotifyService {
-  artists:any[] = [];
-  artist:any;
-  topTracks:any[] = [];
-  baseUrl = "https://api.spotify.com/v1/search";
-  artistUrl = "https://api.spotify.com/v1/artists";
-  tokenUrl = "https://accounts.spotify.com/api/token";
-  token:string = "Bearer BQAFar3N6mVG9ujkkggnYKjVsOuocGMS2ObCNxS5ygata6yqBRMraUEgNuD2c_7bKnEY5RWCQLxig5Xxb6haYA";
-  lastAccessTokenDate:Date;
-  tokenExpiresIn:number = 0;
+  baseUrl = 'https://api.spotify.com/v1/';
+  tokenUrl = 'https://accounts.spotify.com/api/token';
+  token = '';
+  lastAccessTokenDate: Date;
+  tokenNeedsRefresh: boolean;
 
-  constructor( private http:HttpClient ) {
+  private CLIENT_ID = '17022ffe861f4b43bbf7d7aca7cee995';
+  private CLIENT_SECRET = '1ab1cc4e6e21401781c8dd0b35821c48';
+  private GRANT_TYPE = 'client_credentials';
 
+  constructor( private http: HttpClient ) {
+    this.tokenNeedsRefresh = true;
   }
 
-  getToken():any{
-    let needRefresh:boolean = false;
+  getQuery(query: string) {
+    const url = `https://api.spotify.com/v1/${ query }`;
 
-    if (this.tokenExpiresIn === 0 || this.lastAccessTokenDate == null) {
-        needRefresh = true;
-    } else {
-      let newDate = new Date();
-      let difference = newDate.getTime() - this.lastAccessTokenDate.getTime();
-      let seconds = Math.floor((difference) / (1000));
-      if (seconds >= this.tokenExpiresIn) {
-          needRefresh = true;
-      }
-    }
+    return this.getToken()
+        .pipe(flatMap((token: string) => {
+          let headers = new HttpHeaders();
+          headers = headers.append('Authorization', token );
+          headers = headers.append('Accept', 'application/json' );
 
-    if (needRefresh) {
-      const CLIENT_ID:string = '17022ffe861f4b43bbf7d7aca7cee995';
-      const CLIENT_SECRET:string = 'a8fd02f915414491901d65e2ab2b3528';
-      const GRANT_TYPE:string = 'client_credentials';
+          return this.http.get( url, { headers } );
+        })
+      );
+  }
 
-      let data = new HttpParams()
-        .set('client_id', CLIENT_ID)
-        .set('client_secret', CLIENT_SECRET)
-        .set('grant_type', GRANT_TYPE)
+  getToken(): any {
+    if (this.tokenNeedsRefresh) {
+      const data = new HttpParams()
+        .set('client_id', this.CLIENT_ID)
+        .set('client_secret', this.CLIENT_SECRET)
+        .set('grant_type', this.GRANT_TYPE);
 
-      let headers = new HttpHeaders()
-        .set('Content-Type', 'application/x-www-form-urlencoded');
-
+      let headers = new HttpHeaders();
+      headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
       headers = headers.set('Accept', 'application/json');
-      // headers.set('Accept', 'application/json' );
-      // headers.set('Access-Control-Allow-Origin', '*' );
 
       return this.http.post(this.tokenUrl, data.toString(), { headers: headers })
-        .map( (res:any) => {
-          return res;
-          // this.token = `${ res.token_type } ${ res.access_token }`;
-          // this.lastAccessTokenDate = new Date();
-          // this.tokenExpiresIn = res.expires_in;
-          // console.log(this.token);
-        });
+        .pipe(map( (res: any) => {
+          this.token = `${ res.token_type } ${ res.access_token }`;
+
+          setTimeout(() => { this.tokenNeedsRefresh = true; }, (res.expires_in * 1000));
+
+          return this.token;
+        }));
+    } else {
+      return of(this.token);
     }
   }
 
-  getArtist(id:string){
-    let query = `/${ id }`
-    let url = this.artistUrl + query;
+  getArtist(id: string) {
+    const query = `artists/${ id }`;
 
-    let headers = new HttpHeaders();
-    headers.append("authorization", this.token );
-    headers.append("Accept", "application/json" );
-
-    return this.http.get( url, { headers } )
-      .map( (res:any) => {
-        this.artist = res.artist;
-        return this.artist;
-      });
+    return this.getQuery(query);
   }
 
-  getArtisTopTracks(id:string){
-    let query = `/${ id }/top-tracks?country=CO`
-    let url = this.artistUrl + query;
+  getArtisTopTracks(id: string) {
+    const query = `artists/${ id }/top-tracks?country=CO`;
 
-    let headers = new HttpHeaders();
-    headers.append("authorization", this.token );
-    headers.append("Accept", "application/json" );
-
-
-    return this.http.get( url, { headers } )
-      .map( (res:any) => {
-        this.topTracks = res.json().tracks;
-        return this.topTracks;
-      });
+    return this.getQuery(query)
+      .pipe(map( data => data['tracks'] ));
   }
 
-  getArtists(term:string){
-    let query = `?q=${ term }&type=artist`
-    let url = this.baseUrl + query;
+  getArtists(term: string): any {
+    const query = `search?q=${ term }&type=artist`;
 
-    console.log(this.token);
-    this.getToken().subscribe( data => { this.token = `${ data.token_type } ${ data.access_token }`; console.log(this.token) });
-    console.log(this.token);
+    return this.getQuery(query).pipe(map((data: any) => data.artists.items ));
+  }
 
-    let headers = new HttpHeaders();
-    headers.append("authorization", this.token );
-    headers.append("Accept", "application/json" );
+  getNewReleases(): any {
+    const query = `browse/new-releases`;
 
-    return this.http.get( url, { headers } )
-      .map( (res: any) => {
-        this.artists = res.artist.items;
-        return this.artists;
-      });
+    return this.getQuery(query).pipe(map((data: any) => data.albums.items ));
   }
 
 }

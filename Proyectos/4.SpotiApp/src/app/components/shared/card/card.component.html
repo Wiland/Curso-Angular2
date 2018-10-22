@@ -1,0 +1,9 @@
+<div class="card-columns">
+  <div *ngFor="let item of items" class="card text-dark animated fadeIn puntero" (click)='itemDetails(item)'>
+    <img class="card-img-top" [src]="item.images | noimage" [alt]="item.name">
+    <div class="blockquote mb-0 card-body">
+      <h5 class="card-title">{{ item.name }}</h5>
+      <span style="max-width: -webkit-fill-available; overflow: hidden;" *ngFor="let artist of item.artists" class="badge badge-pill badge-success">{{ item.name }}</span>
+    </div>
+  </div>
+</div>
