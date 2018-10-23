@@ -1,0 +1,26 @@
+<div [ngClass]="alertClass" class="alert" role="alert">
+  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+</div>
+
+<button type="button" class="btn btn-success" (click)="alertClass = 'alert-success'">Success</button>&nbsp;
+<button type="button" class="btn btn-info" (click)="alertClass = 'alert-info'">Info</button>
+
+<br><br>
+<h3 [ngClass]="{ 'text-danger': styleProperties.danger, 'text-info': !styleProperties.danger }" >Hola Mundo</h3>
+
+<button type="button" class="btn btn-danger"
+  (click)="styleProperties.danger = !styleProperties.danger"
+  [ngClass]="{ 'btn-danger': styleProperties.danger, 'btn-info': !styleProperties.danger }">
+  Cambiar
+</button>
+
+<hr>
+<h3>Proceso asíncrono</h3>
+<button type="button" class="btn btn-primary" (click)="run()" [disabled]="loading">
+  <i class="fa" [ngClass]="{ 'fa-save': !loading, 'fa-sync fa-spin': loading}"></i>
+  <span *ngIf="!loading"> Guardar cambios</span>
+  <span *ngIf="loading"> Por favor espere</span>
+</button>
+
+
+<br><br>
